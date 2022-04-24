@@ -1,0 +1,10 @@
+opencv-python
+numpy
+cmake
+face_recognition
+django
+djangorestframework
+requests
+gunicorn
+whitenoise
+dj-database-url
