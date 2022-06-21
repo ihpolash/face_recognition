@@ -72,8 +72,6 @@ def face_check(tmp_file):
         print(known_face_names)
 
         img = cv2.imread(tmp_file)
-        small_frame = cv2.resize(img, (0, 0), fx=0.25, fy=0.25)
-        img = small_frame[:, :, ::-1]
 
         face_locations = face_recognition.face_locations(img)
         face_encodings = face_recognition.face_encodings(img, face_locations)
@@ -93,7 +91,7 @@ def face_check(tmp_file):
     except:
         response = {"username": "Server Error"}
 
-    return response, tmp_file
+    return response
 
 def face_enrollment(image, name):
     os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
@@ -116,13 +114,13 @@ def face_enrollment(image, name):
         image_path = default_storage.save("tmp/temp.jpg", ContentFile(image.read()))
         tmp_file = os.path.join(settings.MEDIA_ROOT, image_path)
 
-        result, tmp_file = face_check(tmp_file)
+        result = face_check(tmp_file)
 
         if result['username'] in known_face_names:
             response = {"result": "User already exists!"}
         else:
-            # load_image = face_recognition.load_image_file(tmp_file)
-            load_image = cv2.imread(tmp_file)
+            load_image = face_recognition.load_image_file(tmp_file)
+            # load_image = cv2.imread(tmp_file)
             # height, width, channels = load_image.shape
             # if height or width > 720:
             #     small_frame = cv2.resize(load_image, (0, 0), fx=0.25, fy=0.25)
