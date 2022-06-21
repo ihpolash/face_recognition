@@ -32,7 +32,7 @@ def face_detect(image):
             tmp_file = os.path.join(settings.MEDIA_ROOT, image_path)
 
             img = cv2.imread(tmp_file)
-            # small_frame = cv2.resize(img, (0, 0), fx=0.25, fy=0.25)
+            img = cv2.resize(img, (0, 0), fx=0.25, fy=0.25)
             # img = small_frame[:, :, ::-1]
 
             face_locations = face_recognition.face_locations(img)
