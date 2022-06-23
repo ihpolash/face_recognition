@@ -49,11 +49,11 @@ def face_detect(image):
             default_storage.delete(tmp_file)
 
             if name == "Unknown":
-                response = {"result": "No Match Found! Please Register"}
+                response = {"unknown": "No Match Found!"}
             else:
                 response = {"result": name}
         except:
-            response = {"result": "Server Error"}
+            response = {"error": "Server Error"}
 
     return response
 
