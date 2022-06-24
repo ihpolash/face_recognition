@@ -17,6 +17,13 @@ class FaceEnrollmentSerializer(serializers.Serializer):
 class FaceDetectSerializer(serializers.Serializer):
     image = serializers.ImageField()
 
+class FaceEnrollmentJointSerializer(serializers.Serializer):
+    image = serializers.ImageField()
+    username = serializers.CharField()
+
+class FaceDetectJointSerializer(serializers.Serializer):
+    image = serializers.ImageField()
+
 
 
 class FaceEnrollmentView(GenericAPIView):
@@ -41,4 +48,28 @@ class FaceDetectView(GenericAPIView):
         serializer.is_valid(raise_exception=True)
         image = serializer.validated_data.get('image')
         response = client.face_detect(image)
+        return Response(response, status=status.HTTP_200_OK)
+
+class FaceEnrollmentJointView(GenericAPIView):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = FaceEnrollmentJointSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        image = serializer.validated_data.get('image')
+        username = serializer.validated_data.get('username')
+        response = client.face_enrollment_joint(image, username)
+        return Response(response, status=status.HTTP_200_OK)
+
+
+class FaceDetectJointView(GenericAPIView):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = FaceDetectJointSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        image = serializer.validated_data.get('image')
+        response = client.face_detect_joint(image)
         return Response(response, status=status.HTTP_200_OK)
